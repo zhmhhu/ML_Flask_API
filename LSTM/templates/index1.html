@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+</head>
+<body>
+<div id="main2" style="width: 100%;height:800px;margin: 0 auto;"></div>
+
+<script type="text/javascript">
+               var series = [];
+</script>
+
+   <!-- 这里就是当页面加载的同时复制数据到数组 -->
+{%for a, b in result.items()%}
+    <script type="text/javascript">
+            series.push({name:'{{a|safe}}',type: 'line',data:{{ b|safe}}})
+    </script>
+{%endfor%}
+
+<script  type="text/javascript">
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart2 = echarts.init(document.getElementById('main2'));
+    // 指定图表的配置项和数据
+    var option2 = {
+        title: {
+            text: '图形展示效果'
+        },
+        tooltip: {
+            trigger:'axis'
+        },
+        xAxis: [{
+                    type: 'category',
+                    boundaryGap:false,
+                    //nameRotate:30,
+                    data: {{date_list|safe}} ,
+                    gridIndex: 0
+                }],
+        // 定义双Y轴
+        yAxis: [{
+                    type: 'value',
+                    name: '数值',
+                    gridIndex: 0
+                }],
+        grid: [{
+                    bottom: '50%'
+                }, {
+                    top: '60%'
+                }],
+
+        series: series
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart2.setOption(option2);
+</script>
+
+</body>
+</html>
